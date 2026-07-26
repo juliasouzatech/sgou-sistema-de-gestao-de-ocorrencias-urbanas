@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SGOU — Sistema de Gestão de Ocorrências Urbanas</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOAST GLOBAL -->
+<div class="toast" id="toast">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toast-msg"></span>
+</div>
+
+<!-- SEÇÃO 1 — TELAS DE CADASTRO/LOGIN -->
+<div id="front-wrapper">
+
+  <header class="topo">
+    <img src="logo-prefeitura.png" class="logo-img" alt="Logo Prefeitura">
+    <div class="titulo">Sistema de Gestão de Ocorrências Urbanas – SGOU</div>
+  </header>
+
+  <main class="front-conteudo">
+
+    <!-- HOME -->
+    <div id="home" class="tela ativa">
+      <div class="container">
+        <div class="welcome-badge"><i class="fa-solid fa-leaf"></i> Prefeitura Municipal</div>
+        <h1>Seja Bem-vindo(a)</h1>
+        <p class="descricao">
+          O Sistema de Gestão de Ocorrências Urbanas (SGOU) facilita a comunicação entre a população e a Secretaria Municipal de Obras, permitindo registro, acompanhamento e controle de solicitações de infraestrutura urbana.
+        </p>
+        <h2>Selecione seu perfil de acesso</h2>
+        <div class="botoes-acesso">
+          <div class="card-acesso" onclick="irPara('opcoes-cidadao')">
+            <div class="icone-card"><i class="fa-solid fa-user"></i></div>
+            <h3>Cidadão</h3>
+            <p>Registre e acompanhe ocorrências urbanas no seu bairro</p>
+          </div>
+          <div class="card-acesso" onclick="irPara('opcoes-adm')">
+            <div class="icone-card"><i class="fa-solid fa-user-tie"></i></div>
+            <h3>Administrador</h3>
+            <p>Gerencie ocorrências e acompanhe indicadores da cidade</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPÇÕES CIDADÃO -->
+    <div id="opcoes-cidadao" class="tela">
+      <div class="container">
+        <div class="opcoes-header">
+          <div class="icone-header"><i class="fa-solid fa-user"></i></div>
+          <div>
+            <div class="badge-tipo"><i class="fa-solid fa-circle" style="font-size:7px"></i> Cidadão</div>
+            <h2>Acesso Cidadão</h2>
+          </div>
+        </div>
+        <div class="botoes-opcoes">
+          <button class="btn-opcao primario" onclick="irPara('login-cidadao')"><i class="fa-solid fa-right-to-bracket"></i> Entrar</button>
+          <button class="btn-opcao secundario" onclick="irPara('cadastro-cidadao')"><i class="fa-solid fa-user-plus"></i> Criar conta</button>
+        </div>
+        <div style="text-align:center">
+          <span class="voltar" onclick="irPara('home')"><i class="fa-solid fa-arrow-left"></i> Voltar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPÇÕES ADM -->
+    <div id="opcoes-adm" class="tela">
+      <div class="container">
+        <div class="opcoes-header">
+          <div class="icone-header"><i class="fa-solid fa-user-tie"></i></div>
+          <div>
+            <div class="badge-tipo"><i class="fa-solid fa-circle" style="font-size:7px"></i> Administrador</div>
+            <h2>Acesso Administrador</h2>
+          </div>
+        </div>
+        <div class="botoes-opcoes">
+          <button class="btn-opcao primario" onclick="irPara('login-adm')"><i class="fa-solid fa-right-to-bracket"></i> Entrar</button>
+          <button class="btn-opcao secundario" onclick="irPara('cadastro-adm')"><i class="fa-solid fa-user-plus"></i> Criar conta</button>
+        </div>
+        <div style="text-align:center">
+          <span class="voltar" onclick="irPara('home')"><i class="fa-solid fa-arrow-left"></i> Voltar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGIN CIDADÃO -->
+    <div id="login-cidadao" class="tela">
+      <div class="container">
+        <div class="form-card">
+          <div class="form-header">
+            <div class="form-icon"><i class="fa-solid fa-right-to-bracket"></i></div>
+            <div class="badge-tipo"><i class="fa-solid fa-user" style="font-size:10px"></i> Cidadão</div>
+            <h2>Entrar na sua conta</h2>
+            <p>Informe seus dados de acesso</p>
+          </div>
+          <div class="campo-grupo">
+            <label for="email-login-cid">E-mail</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-envelope icone-campo"></i>
+              <input type="email" id="email-login-cid" placeholder="seu@email.com" autocomplete="email">
+            </div>
+          </div>
+          <div class="campo-grupo">
+            <label for="senha-login-cid">Senha</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-lock icone-campo"></i>
+              <input type="password" id="senha-login-cid" placeholder="••••••••">
+              <button type="button" class="toggle-senha" onclick="toggleSenha('senha-login-cid', this)"><i class="fa-regular fa-eye"></i></button>
+            </div>
+          </div>
+          <input type="checkbox" id="mostrar-recuperar-cid" style="display:none">
+          <label for="mostrar-recuperar-cid" class="link-recuperar">Esqueci minha senha</label>
+          <div class="recuperar-senha">
+            <p><i class="fa-solid fa-envelope-circle-check"></i> Recuperação por e-mail</p>
+            <div class="recuperar-row">
+              <input type="email" placeholder="seu@email.com">
+              <button type="button">Enviar</button>
+            </div>
+          </div>
+          <div style="margin-top:20px">
+            <button class="btn-submit" onclick="fazerLoginCidadao()">
+              <i class="fa-solid fa-right-to-bracket"></i> Entrar
+            </button>
+          </div>
+          <div id="erro-login-cidadao" style="display:none;color:var(--erro);font-size:13px;margin-top:10px;text-align:center;font-weight:600"></div>
+        </div>
+        <div style="text-align:center;margin-top:8px">
+          <p style="text-align:center;font-size:13.5px;color:var(--cinza-texto)">Não possui conta? <span style="color:var(--verde);font-weight:600;cursor:pointer" onclick="irPara('cadastro-cidadao')">Cadastre-se</span></p>
+          <span class="voltar" onclick="irPara('opcoes-cidadao')"><i class="fa-solid fa-arrow-left"></i> Voltar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CADASTRO CIDADÃO -->
+    <div id="cadastro-cidadao" class="tela">
+      <div class="container">
+        <div class="form-card">
+          <div class="form-header">
+            <div class="form-icon"><i class="fa-solid fa-user-plus"></i></div>
+            <div class="badge-tipo"><i class="fa-solid fa-user" style="font-size:10px"></i> Cidadão</div>
+            <h2>Criar nova conta</h2>
+            <p>Preencha os dados abaixo para se cadastrar</p>
+          </div>
+          <div class="stepper">
+            <div class="step ativo"><div class="step-num">1</div><span>Dados pessoais</span></div>
+            <div class="step-linha"></div>
+            <div class="step"><div class="step-num">2</div><span>Acesso</span></div>
+          </div>
+          <div class="campo-grupo">
+            <label for="nome-cad-cid">Nome completo</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-id-card icone-campo"></i>
+              <input type="text" id="nome-cad-cid" placeholder="Seu nome completo" autocomplete="name">
+            </div>
+          </div>
+          
+          <div class="campo-grupo">
+            <label for="tel-cad-cid">Telefone</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-phone icone-campo"></i>
+              <input type="tel" id="tel-cad-cid" placeholder="(11) 99999-9999" maxlength="15" oninput="mascaraTel(this)">
+            </div>
+          </div>
+          <div class="divider">dados de acesso</div>
+          <div class="campo-grupo">
+            <label for="email-cad-cid">E-mail</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-envelope icone-campo"></i>
+              <input type="email" id="email-cad-cid" placeholder="seu@email.com" oninput="validarEmail(this,'feedback-email-cid')">
+            </div>
+            <div class="campo-feedback" id="feedback-email-cid"></div>
+          </div>
+          <div class="campo-grupo">
+            <label for="senha-cad-cid">Senha</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-lock icone-campo"></i>
+              <input type="password" id="senha-cad-cid" placeholder="Mínimo 8 caracteres" oninput="verificarForca(this,'forca-cid')" autocomplete="new-password">
+              <button type="button" class="toggle-senha" onclick="toggleSenha('senha-cad-cid',this)"><i class="fa-regular fa-eye"></i></button>
+            </div>
+            <div class="forca-senha" id="forca-cid">
+              <div class="forca-barras">
+                <div class="forca-barra" id="forca-cid-b1"></div>
+                <div class="forca-barra" id="forca-cid-b2"></div>
+                <div class="forca-barra" id="forca-cid-b3"></div>
+                <div class="forca-barra" id="forca-cid-b4"></div>
+              </div>
+              <span class="forca-texto" id="forca-cid-txt"></span>
+            </div>
+          </div>
+          <div class="campo-grupo">
+            <label for="conf-senha-cid">Confirmar senha</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-lock icone-campo"></i>
+              <input type="password" id="conf-senha-cid" placeholder="Repita a senha" oninput="confirmarSenha('senha-cad-cid',this,'feedback-conf-cid')" autocomplete="new-password">
+              <button type="button" class="toggle-senha" onclick="toggleSenha('conf-senha-cid',this)"><i class="fa-regular fa-eye"></i></button>
+            </div>
+            <div class="campo-feedback" id="feedback-conf-cid"></div>
+          </div>
+          <label class="campo-check">
+            <input type="checkbox" id="termos-cid">
+            <span>Li e concordo com os <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a></span>
+          </label>
+          <button class="btn-submit" onclick="cadastrarCidadao()">
+            <i class="fa-solid fa-user-plus"></i> Criar conta
+          </button>
+        </div>
+        <div style="text-align:center;margin-top:8px">
+          <p style="font-size:13.5px;color:var(--cinza-texto)">Já possui conta? <span style="color:var(--verde);font-weight:600;cursor:pointer" onclick="irPara('login-cidadao')">Fazer login</span></p>
+          <span class="voltar" onclick="irPara('opcoes-cidadao')"><i class="fa-solid fa-arrow-left"></i> Voltar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOGIN ADM -->
+    <div id="login-adm" class="tela">
+      <div class="container">
+        <div class="form-card">
+          <div class="form-header">
+            <div class="form-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="badge-tipo"><i class="fa-solid fa-user-tie" style="font-size:10px"></i> Administrador</div>
+            <h2>Acesso Administrativo</h2>
+            <p>Área restrita a servidores autorizados</p>
+          </div>
+          <div class="campo-grupo">
+            <label for="email-login-adm">E-mail institucional</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-envelope icone-campo"></i>
+              <input type="email" id="email-login-adm" placeholder="admin@prefeitura.itu.sp.gov.br">
+            </div>
+          </div>
+          <div class="campo-grupo">
+            <label for="senha-login-adm">Senha</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-lock icone-campo"></i>
+              <input type="password" id="senha-login-adm" placeholder="••••••••">
+              <button type="button" class="toggle-senha" onclick="toggleSenha('senha-login-adm',this)"><i class="fa-regular fa-eye"></i></button>
+            </div>
+          </div>
+          <input type="checkbox" id="mostrar-recuperar-adm" style="display:none">
+          <label for="mostrar-recuperar-adm" class="link-recuperar">Esqueci minha senha</label>
+          <div class="recuperar-senha">
+            <p><i class="fa-solid fa-envelope-circle-check"></i> Recuperação por e-mail</p>
+            <div class="recuperar-row">
+              <input type="email" placeholder="seu@email.com">
+              <button type="button">Enviar</button>
+            </div>
+          </div>
+          <div style="margin-top:20px">
+            <button class="btn-submit" onclick="fazerLoginAdm()">
+              <i class="fa-solid fa-shield-halved"></i> Acessar painel
+            </button>
+          </div>
+          <div id="erro-login-admtela" style="display:none;color:var(--erro);font-size:13px;margin-top:10px;text-align:center;font-weight:600"></div>
+        </div>
+
+        <div style="text-align:center;margin-top:8px">
+          <p style="font-size:13.5px;color:var(--cinza-texto)">Não possui conta? <span style="color:var(--verde);font-weight:600;cursor:pointer" onclick="irPara('cadastro-adm')">Solicitar acesso</span></p>
+          <span class="voltar" onclick="irPara('opcoes-adm')"><i class="fa-solid fa-arrow-left"></i> Voltar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CADASTRO ADM -->
+    <div id="cadastro-adm" class="tela">
+      <div class="container">
+        <div class="form-card">
+          <div class="form-header">
+            <div class="form-icon"><i class="fa-solid fa-user-shield"></i></div>
+            <div class="badge-tipo"><i class="fa-solid fa-user-tie" style="font-size:10px"></i> Administrador</div>
+            <h2>Solicitar acesso administrativo</h2>
+            <p>Preencha os dados para criar sua conta</p>
+          </div>
+          <div class="stepper">
+            <div class="step ativo"><div class="step-num">1</div><span>Dados pessoais</span></div>
+            <div class="step-linha"></div>
+            <div class="step"><div class="step-num">2</div><span>Acesso</span></div>
+          </div>
+          <div class="campo-grupo">
+            <label for="nome-cad-adm">Nome completo</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-id-card icone-campo"></i>
+              <input type="text" id="nome-cad-adm" placeholder="Seu nome completo">
+            </div>
+          </div>
+          
+          <div class="campo-grupo">
+            <label for="setor-adm">Setor / Departamento</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-building icone-campo"></i>
+              <input type="text" id="setor-adm" placeholder="Ex: Secretaria de Obras">
+            </div>
+          </div>
+          <div class="divider">dados de acesso</div>
+          <div class="campo-grupo">
+            <label for="email-cad-adm">E-mail institucional</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-envelope icone-campo"></i>
+              <input type="email" id="email-cad-adm" placeholder="nome@prefeitura.sp.gov.br" oninput="validarEmail(this,'feedback-email-adm')">
+            </div>
+            <div class="campo-feedback" id="feedback-email-adm"></div>
+          </div>
+          <div class="campo-grupo">
+            <label for="senha-cad-adm">Senha</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-lock icone-campo"></i>
+              <input type="password" id="senha-cad-adm" placeholder="Mínimo 8 caracteres" oninput="verificarForca(this,'forca-adm')" autocomplete="new-password">
+              <button type="button" class="toggle-senha" onclick="toggleSenha('senha-cad-adm',this)"><i class="fa-regular fa-eye"></i></button>
+            </div>
+            <div class="forca-senha" id="forca-adm">
+              <div class="forca-barras">
+                <div class="forca-barra" id="forca-adm-b1"></div>
+                <div class="forca-barra" id="forca-adm-b2"></div>
+                <div class="forca-barra" id="forca-adm-b3"></div>
+                <div class="forca-barra" id="forca-adm-b4"></div>
+              </div>
+              <span class="forca-texto" id="forca-adm-txt"></span>
+            </div>
+          </div>
+          <div class="campo-grupo">
+            <label for="conf-senha-adm">Confirmar senha</label>
+            <div class="campo-wrapper">
+              <i class="fa-solid fa-lock icone-campo"></i>
+              <input type="password" id="conf-senha-adm" placeholder="Repita a senha" oninput="confirmarSenha('senha-cad-adm',this,'feedback-conf-adm')" autocomplete="new-password">
+              <button type="button" class="toggle-senha" onclick="toggleSenha('conf-senha-adm',this)"><i class="fa-regular fa-eye"></i></button>
+            </div>
+            <div class="campo-feedback" id="feedback-conf-adm"></div>
+          </div>
+          <label class="campo-check">
+            <input type="checkbox" id="termos-adm">
+            <span>Declaro que sou servidor autorizado e concordo com os <a href="#">Termos de Uso</a> do SGOU</span>
+          </label>
+          <button class="btn-submit" onclick="solicitarAcessoAdm()">
+            <i class="fa-solid fa-shield-halved"></i> Solicitar acesso
+          </button>
+        </div>
+        <div style="text-align:center;margin-top:8px">
+          <p style="font-size:13.5px;color:var(--cinza-texto)">Já possui conta? <span style="color:var(--verde);font-weight:600;cursor:pointer" onclick="irPara('login-adm')">Fazer login</span></p>
+          <span class="voltar" onclick="irPara('opcoes-adm')"><i class="fa-solid fa-arrow-left"></i> Voltar</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-conteudo">
+      <img src="obras.png" class="logo-rodape" alt="Secretaria de Obras">
+      <div class="rodape-info">
+        <p><strong>Secretaria Municipal de Obras</strong></p>
+        <p>Avenida Itu 400 Anos, 111 — Itu Novo Centro, Itu - SP, CEP 13303-500</p>
+        <p>Telefone: (11) 4886-9600</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SEÇÃO 2 — PAINEL CIDADÃO (app-cidadao)
+══════════════════════════════════════════════════════════ -->
+<div id="app-cidadao">
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <img src="logo-prefeitura.png" alt="Logo Prefeitura">
+        <div class="logo-text">
+          <span class="logo-title">SGOU</span>
+          <span class="logo-sub">Sistema de Gestão de Ocorrências Urbanas</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <span class="usuario-nome-badge">Olá, <strong id="cidadao-nome">Cidadão</strong></span>
+        <button class="btn-logout" onclick="logout()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sair
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <button onclick="trocarTelaInterna('registrar','cid')" class="nav-btn ativo" id="btn-registrar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+        Registrar ocorrência
+      </button>
+      <button onclick="trocarTelaInterna('minhas','cid')" class="nav-btn" id="btn-minhas">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Minhas ocorrências
+      </button>
+      <button onclick="excluirConta()" class="nav-btn" style="color:#c53030;margin-left:auto">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+  Excluir conta
+      </button>
+    </div>
+  </nav>
+
+  <main class="app-main">
+
+    <!-- REGISTRAR -->
+    <section id="registrar" class="tela-interna ativa">
+      <div class="box">
+        <div class="box-header">
+          <div class="box-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div>
+            <h2>Nova ocorrência</h2>
+            <p class="sub">Preencha os dados para registrar sua ocorrência</p>
+          </div>
+        </div>
+        <form onsubmit="gerarProtocolo(event)">
+          <div class="form-section">
+            <div class="form-section-title">Classificação</div>
+            <div class="form-grid">
+              <div class="grupo">
+                <label>Categoria <span class="obrigatorio">*</span></label>
+                <div class="select-wrapper">
+                  <select id="categoria" required onchange="toggleOutro(this)">
+                    <option value="">Selecione uma categoria</option>
+                    <optgroup label="Infraestrutura">
+                      <option value="buraco">Buraco na via pública</option>
+                      <option value="calcada">Calçada danificada</option>
+                      <option value="asfalto">Pavimentação / asfalto</option>
+                      <option value="galeria">Galeria / bueiro entupido</option>
+                    </optgroup>
+                    <optgroup label="Serviços Urbanos">
+                      <option value="iluminacao">Iluminação pública</option>
+                      <option value="sinalizacao">Sinalização de trânsito</option>
+                      <option value="limpeza">Limpeza e coleta de lixo</option>
+                      <option value="podacao">Poda de árvore / vegetação</option>
+                    </optgroup>
+                    <optgroup label="Saneamento">
+                      <option value="esgoto">Esgoto / vazamento</option>
+                      <option value="agua">Falta de água</option>
+                      <option value="alagamento">Alagamento / enchente</option>
+                    </optgroup>
+                    <optgroup label="Outros">
+                      <option value="outro">Outro</option>
+                    </optgroup>
+                  </select>
+                  <span class="select-arrow">▾</span>
+                </div>
+              </div>
+              <div class="grupo" id="campo-outro" style="display:none;">
+                <label>Especifique <span class="obrigatorio">*</span></label>
+                <input type="text" id="outro-texto" placeholder="Descreva a categoria">
+              </div>
+              <div class="grupo">
+                <label>Gravidade <span class="obrigatorio">*</span></label>
+                <div class="gravidade-group">
+                  <label class="radio-card baixa"><input type="radio" name="gravidade" value="Baixa" required><span class="radio-dot"></span><span>Baixa</span></label>
+                  <label class="radio-card media"><input type="radio" name="gravidade" value="Média"><span class="radio-dot"></span><span>Média</span></label>
+                  <label class="radio-card alta"><input type="radio" name="gravidade" value="Alta"><span class="radio-dot"></span><span>Alta</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="form-section-title">Descrição</div>
+            <div class="form-grid">
+              <div class="grupo full">
+                <label>Descreva o problema <span class="obrigatorio">*</span></label>
+                <textarea required placeholder="Descreva detalhadamente a ocorrência..."></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="form-section-title">Localização</div>
+            <div class="form-grid">
+              <div class="grupo"><label>Rua / Logradouro <span class="obrigatorio">*</span></label><input type="text" required placeholder="Ex: Rua das Flores"></div>
+              <div class="grupo"><label>Número</label><input type="text" placeholder="Ex: 123 ou S/N"></div>
+              <div class="grupo full"><label>Bairro <span class="obrigatorio">*</span></label><input type="text" required placeholder="Ex: Centro"></div>
+              <div class="grupo full"><label>Referência / Complemento</label><input type="text" placeholder="Próximo a..."></div>
+            </div>
+          </div>
+          <div class="form-section">
+            <div class="form-section-title">Evidências</div>
+            <div class="form-grid">
+              <div class="grupo full">
+                <label>Foto do local <span class="opcional">(opcional)</span></label>
+                <div class="file-drop" onclick="document.getElementById('foto').click()">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  <span id="file-label">Clique para selecionar uma imagem</span>
+                  <small>JPG, PNG ou HEIC — máx. 10 MB</small>
+                  <input type="file" id="foto" accept="image/*" style="display:none" onchange="atualizarNomeArquivo(this)">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-enviar">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Enviar ocorrência
+            </button>
+          </div>
+          <div id="protocolo" class="protocolo-box" style="display:none;"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- MINHAS OCORRÊNCIAS -->
+    <section id="minhas" class="tela-interna">
+      <div class="box">
+        <div class="box-header">
+          <div class="box-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div>
+            <h2>Minhas ocorrências</h2>
+            <p class="sub">Acompanhe o andamento dos seus registros</p>
+          </div>
+        </div>
+        <div id="lista-ocorrencias"></div>
+      </div>
+    </section>
+
+  </main>
+  <footer class="footer">© 2026 Prefeitura da Estância Turística de Itu · SGOU — Sistema de Gestão de Ocorrências Urbanas</footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SEÇÃO 3 — PAINEL ADMIN (app-admin)
+══════════════════════════════════════════════════════════ -->
+<div id="app-admin">
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <img src="logo-prefeitura.png" alt="Logo Prefeitura">
+        <div class="logo-text">
+          <span class="logo-title">SGOU · ADM</span>
+          <span class="logo-sub" id="adm-nome-sub">Painel Administrativo</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="admin-badge"><span class="admin-dot"></span><span id="adm-nome-badge">Administrador</span></div>
+        <button class="btn-logout" onclick="logout()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sair
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-tabs">
+        <button onclick="trocarTelaInterna('painel','adm')" class="nav-btn ativo" id="btn-painel">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Painel
+          <span class="nav-badge hidden" id="badge-novas">0</span>
+        </button>
+        <button onclick="trocarTelaInterna('categorias','adm')" class="nav-btn" id="btn-categorias">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Por categoria
+        </button>
+        <button onclick="trocarTelaInterna('arquivo','adm')" class="nav-btn" id="btn-arquivo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+          Arquivo morto
+          <span class="nav-badge nav-badge-cinza hidden" id="badge-arquivo">0</span>
+        </button>
+        <button onclick="trocarTelaInterna('solicitacoes','adm')" class="nav-btn" id="btn-solicitacoes">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Solicitações
+          <span class="nav-badge hidden" id="badge-solicitacoes" style="background:#f0a500">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="app-main">
+
+    <section id="painel" class="tela-interna ativa">
+      <div class="stats-bar" id="stats-bar"></div>
+      <div class="filtros-bar">
+        <label>Filtrar:</label>
+        <select class="filtro-select" id="f-status" onchange="aplicarFiltros()">
+          <option value="">Todos os status</option>
+          <option value="Pendente">Pendente</option>
+          <option value="Em análise">Em análise</option>
+          <option value="Em andamento">Em andamento</option>
+        </select>
+        <select class="filtro-select" id="f-prioridade" onchange="aplicarFiltros()">
+          <option value="">Todas as prioridades</option>
+          <option value="vermelha">🔴 Urgente</option>
+          <option value="amarela">🟡 Moderada</option>
+          <option value="verde">🟢 Baixa</option>
+          <option value="nenhuma">— Não classificada</option>
+        </select>
+        <select class="filtro-select" id="f-categoria" onchange="aplicarFiltros()">
+          <option value="">Todas as categorias</option>
+        </select>
+        <div class="filtro-sep"></div>
+        <button class="btn-limpar" onclick="limparFiltros()">✕ Limpar filtros</button>
+      </div>
+      <div class="box">
+        <div class="box-header">
+          <div class="box-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div>
+            <h2>Ocorrências recebidas</h2>
+            <p class="sub" id="sub-contagem">Carregando...</p>
+          </div>
+        </div>
+        <div class="oc-list" id="lista-ocs"></div>
+      </div>
+    </section>
+
+    <section id="categorias" class="tela-interna">
+      <div class="box">
+        <div class="box-header">
+          <div class="box-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          </div>
+          <div><h2>Ocorrências por categoria</h2><p class="sub">Visão geral agrupada por tipo de ocorrência</p></div>
+        </div>
+        <div class="cat-grid" id="cat-grid"></div>
+      </div>
+    </section>
+
+    <section id="arquivo" class="tela-interna">
+      <div class="box">
+        <div class="box-header">
+          <div class="box-icon" style="background:#f0f0f0;color:#888;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+          </div>
+          <div><h2>Arquivo morto</h2><p class="sub">Ocorrências concluídas. Você pode desarquivar a qualquer momento.</p></div>
+        </div>
+        <div class="oc-list" id="lista-arquivo"></div>
+      </div>
+    </section>
+
+    <section id="solicitacoes" class="tela-interna">
+      <div class="box">
+        <div class="box-header">
+          <div class="box-icon" style="background:#fff8e1;color:#8a6000;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div><h2>Solicitações de acesso</h2><p class="sub">Aprove ou rejeite pedidos de acesso administrativo</p></div>
+        </div>
+        <div class="oc-list" id="lista-solicitacoes"></div>
+      </div>
+    </section>
+
+  </main>
+  <footer class="footer">© 2026 Prefeitura da Estância Turística de Itu · SGOU — Painel Administrativo</footer>
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>
